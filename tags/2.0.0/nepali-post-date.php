@@ -3,7 +3,7 @@
 Plugin Name: Nepali Post Date
 Plugin URI: http://www.padamshankhadev.com
 Description: A Nepali Post Date Plugin
-Version: 1.0.0
+Version: 2.0.0
 Author: Padam Shankhadev
 Author URI: http://www.padamshankhadev.com
 */

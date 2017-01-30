@@ -2,8 +2,8 @@
 Contributors: shankhadev123
 Tags: Nepali Post Date, Nepal, Nepali, Nepali Date, Nepali Date Convert
 Requires at least: 3.6
-Tested up to: 4.7.2
-Stable tag: 2.0.0
+Tested up to: 4.6
+Stable tag: 4.6
 License: GPLv2 or later
 
 == Description ==
@@ -22,9 +22,6 @@ Upload the Nepali Post Date plugin to your blog, Activate it.
 1, 2, 3: You're done!
 
 == Changelog ==
-
-= 2.0.0 =
-* Support nepali translation.
 
 = 1.0.0 =
 * This is first version of the plugin.

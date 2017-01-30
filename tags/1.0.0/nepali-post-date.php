@@ -3,7 +3,7 @@
 Plugin Name: Nepali Post Date
 Plugin URI: http://www.padamshankhadev.com
 Description: A Nepali Post Date Plugin
-Version: 2.0.0
+Version: 1.0.0
 Author: Padam Shankhadev
 Author URI: http://www.padamshankhadev.com
 */
@@ -28,13 +28,6 @@ if( !defined('NEPALIPOSTDATE_PLUGIN_DIR' ))
 
 /* Plugin version */
 define('NEPALIPOSTDATE', '1.0.0');
-
-/* Load Up the text domain */
-function npdate_textdomain() {
-	load_plugin_textdomain( 'npdate', false, basename( dirname( __FILE__ ) ) . '/languages' );
-}
-
-add_action( 'plugins_loaded', 'npdate_textdomain' );
 
 /* Check if we're running compatible software */
 if ( version_compare( PHP_VERSION, '5.2', '<' ) && version_compare( WP_VERSION, '3.7', '<' ) ) {

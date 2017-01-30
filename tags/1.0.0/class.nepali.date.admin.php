@@ -54,11 +54,11 @@ class Nepali_Post_Date_Admin
     public function register_settings()
     {
 
-        add_settings_section('npd_opts', __('Nepali Post Date Options', 'npdate'), array(&$this, 'settings_section_info'), 'general');
+        add_settings_section('npd_opts', 'Nepali Post Date Options', array(&$this, 'settings_section_info'), 'general');
 
-        add_settings_field('npd_opts[active]', __('Apply Nepali Date format to', 'npdate'), array(&$this, 'active_callback'), 'general', 'npd_opts', $this->opts['active']);
-        add_settings_field('npd_opts[date_format]', __('Apply Date Format', 'npdate'), array(&$this, 'date_format_callback'), 'general', 'npd_opts', $this->opts['date_format']);
-        add_settings_field('npd_opts[custom_date_format]', __('Custom Date Format', 'npdate'), array(&$this, 'custom_date_format_callback'), 'general', 'npd_opts', $this->opts['custom_date_format']);
+        add_settings_field('npd_opts[active]', __('Apply Nepali Date format to', 'nepali-post-date'), array(&$this, 'active_callback'), 'general', 'npd_opts', $this->opts['active']);
+        add_settings_field('npd_opts[date_format]', __('Apply Date Format', 'nepali-post-date'), array(&$this, 'date_format_callback'), 'general', 'npd_opts', $this->opts['date_format']);
+        add_settings_field('npd_opts[custom_date_format]', __('Custom Date Format', 'nepali-post-date'), array(&$this, 'custom_date_format_callback'), 'general', 'npd_opts', $this->opts['custom_date_format']);
 
         register_setting('general', 'npd_opts', array(&$this, 'sanitize_opts'));
     }
@@ -85,8 +85,8 @@ class Nepali_Post_Date_Admin
         $checked_time = checked($active['time'], 1, false);
         $checked_date = checked($active['date'], 1, false);
 
-        echo "<input type=\"checkbox\" name=\"npd_opts[active][date]\" ${checked_date}>" . __('Date', 'npdate') . '&nbsp;&nbsp;&nbsp;';
-        echo "<input type=\"checkbox\" name=\"npd_opts[active][time]\" ${checked_time}>" . __('Time', 'npdate');
+        echo "<input type=\"checkbox\" name=\"npd_opts[active][date]\" ${checked_date}>" . __('Date', 'nepali-post-date') . '&nbsp;&nbsp;&nbsp;';
+        echo "<input type=\"checkbox\" name=\"npd_opts[active][time]\" ${checked_time}>" . __('Time', 'nepali-post-date');
     }
 
     /**
