@@ -50,7 +50,7 @@ if ( version_compare( PHP_VERSION, '5.2', '<' ) && version_compare( WP_VERSION, 
 function npd_frontend_init() {
 	require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
 	require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.front.php' );
-    new Nepali_Post_Date_Admin();
+    new Nepali_Post_Date_Frontend();
 }
 
 function npd_admin_init() {
