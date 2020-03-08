@@ -30,7 +30,7 @@ class Nepali_Post_Date_Admin
     {
 
         $default_opts = array(
-            'active' => array('date' => true, 'time' => true),
+            'active' => array( 'date' => true, 'time' => true, 'modified_date' => false, 'modified_time' => false ),
             'date_format' => 'd m y, l',
             'custom_date_format' => ''
         );
@@ -59,6 +59,7 @@ class Nepali_Post_Date_Admin
         add_settings_field( 'npd_opts[active]', __( 'Apply Nepali Date format to', 'npdate'), array(&$this, 'active_callback' ), 'general', 'npd_opts', $this->opts['active'] );
         add_settings_field( 'npd_opts[date_format]', __( 'Apply Date Format', 'npdate' ), array(&$this, 'date_format_callback' ), 'general', 'npd_opts', $this->opts['date_format'] );
         add_settings_field( 'npd_opts[custom_date_format]', __( 'Custom Date Format', 'npdate' ), array(&$this, 'custom_date_format_callback' ), 'general', 'npd_opts', $this->opts['custom_date_format'] );
+        add_settings_field( 'npd_opts[today_date_format]', __( 'Today Date Format', 'npdate' ), array(&$this, 'today_date_format_callback' ), 'general', 'npd_opts', $this->opts['today_date_format'] );
 
         register_setting( 'general', 'npd_opts', array(&$this, 'sanitize_opts' ) );
     }
@@ -84,9 +85,13 @@ class Nepali_Post_Date_Admin
     {
         $checked_time = checked( $active['time'], 1, false );
         $checked_date = checked( $active['date'], 1, false );
+        $checked_modified_time = checked( $active['modified_time'], 1, false );
+        $checked_modified_date = checked( $active['modified_date'], 1, false );
 
         echo "<input type=\"checkbox\" name=\"npd_opts[active][date]\" ${checked_date}>" . __( 'Date', 'npdate' ) . '&nbsp;&nbsp;&nbsp;';
-        echo "<input type=\"checkbox\" name=\"npd_opts[active][time]\" ${checked_time}>" . __( 'Time', 'npdate' );
+        echo "<input type=\"checkbox\" name=\"npd_opts[active][time]\" ${checked_time}>" . __( 'Time', 'npdate' ) . '&nbsp;&nbsp;&nbsp;';
+        echo "<input type=\"checkbox\" name=\"npd_opts[active][modified_date]\" ${checked_modified_date}>" . __( 'Date (modified)', 'npdate' ) . '&nbsp;&nbsp;&nbsp;';
+        echo "<input type=\"checkbox\" name=\"npd_opts[active][modified_time]\" ${checked_modified_time}>" . __( 'Time (modified)', 'npdate' );
     }
 
     /**
@@ -127,6 +132,18 @@ class Nepali_Post_Date_Admin
     }
 
     /**
+     * Display today date setting
+     *
+     * @since 1.1
+     */
+
+    public function today_date_format_callback( $custom_date_format )
+    {
+
+        echo '<input type="text" name="npd_opts[today_date_format]" value="' . esc_attr( $today_date_format ) . '"/> (eg: d m y, l)';
+    }
+
+    /**
      * Function that sanitizes plugin options on save
      *
      * @author Padam Shankhadev
@@ -150,7 +167,20 @@ class Nepali_Post_Date_Admin
             $opts['active']['time'] = false;
         }
 
+        if ( isset( $opts['active']['modified_date'] ) ) {
+            $opts['active']['modified_date'] = true;
+        } else {
+            $opts['active']['modified_date'] = false;
+        }
+
+        if ( isset( $opts['active']['modified_time'] ) ) {
+            $opts['active']['modified_time'] = true;
+        } else {
+            $opts['active']['modified_time'] = false;
+        }
+
         $opts['custom_date_format'] = esc_html( $opts['custom_date_format'] );
+        $opts['today_date_format'] = esc_html( $opts['today_date_format'] );
 
         return $opts;
     }

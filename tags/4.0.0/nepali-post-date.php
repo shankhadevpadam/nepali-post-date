@@ -105,3 +105,36 @@ if( ! function_exists( 'get_nepali_post_date' )) {
         return $converted_date;
 	}
 }
+
+if( ! function_exists( 'get_nepali_today_date' )) {
+
+    function get_nepali_today_date() {
+
+        require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
+        $default_opts = array(
+            'date_format' => 'd m y, l',
+            'today_date_format' => ''
+        );
+
+        $default_opts = apply_filters( 'npd_modify_default_opts', $default_opts );
+        $opts = get_option( 'npd_opts', $default_opts );
+        $post_date = time();
+        $date = new Nepali_Date();
+        $nepali_calender = $date->eng_to_nep( date( 'Y', $post_date ), date( 'm', $post_date ), date( 'd', $post_date ) );
+        $nepali_year = $date->convert_to_nepali_number( $nepali_calender['year'] );
+        $nepali_month = $nepali_calender['nmonth'];
+        $nepali_day = $nepali_calender['day'];
+        $nepali_date = $date->convert_to_nepali_number( $nepali_calender['date'] );
+
+        if ( $opts['today_date_format'] ) {
+            $format = $opts['today_date_format'];
+        } else {
+            $format = $opts['date_format'];
+        }
+
+        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nepali_day, $nepali_date, $nepali_month, $nepali_year ), $format );
+
+        return $converted_date;
+    }
+}
+

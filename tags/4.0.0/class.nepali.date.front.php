@@ -27,9 +27,10 @@ class Nepali_Post_Date_Frontend
     {
 
         $default_opts = array(
-            'active' => array( 'date' => true, 'time' => true ),
+            'active' => array( 'date' => true, 'time' => true, 'modified_date' => false, 'modified_time' => false ),
             'date_format' => 'd m y, l',
-            'custom_date_format' => ''
+            'custom_date_format' => '',
+            'today_date_format' => ''
         );
 
         $default_opts = apply_filters( 'npd_modify_default_opts', $default_opts );
@@ -39,11 +40,19 @@ class Nepali_Post_Date_Frontend
         $filter_list = array();
 
         if ($this->opts['active']['date']):
-            $filter_list = array_merge( $filter_list, array( 'the_date', 'get_the_date' ) );
+            $filter_list = array_merge( $filter_list, array( 'get_the_date', 'the_date' ) );
         endif;
 
         if ($this->opts['active']['time']) :
             $filter_list = array_merge( $filter_list, array( 'get_the_time', 'the_time' ) );
+        endif;
+
+        if ( $this->opts['active']['modified_date'] ) :
+            $filter_list = array_merge( $filter_list, array( 'get_the_modified_date', 'the_modified_date' ) );
+        endif;
+
+        if ( $this->opts['active']['modified_time'] ) :
+            $filter_list = array_merge( $filter_list, array( 'get_the_modified_time', 'the_modified_time' ) );
         endif;
 
 
@@ -66,6 +75,8 @@ class Nepali_Post_Date_Frontend
         endforeach;
 
         add_shortcode( 'nepali_post_date', array( &$this, 'nepali_post_date_shortcode') );
+
+        add_shortcode( 'nepali_today_date', array( &$this, 'nepali_today_date_shortcode') );
     }
 
 
@@ -140,6 +151,29 @@ class Nepali_Post_Date_Frontend
         if ( $this->opts['active']['time'] ) {
             $converted_date .= ' ' . $nepali_hour . ':' . $nepali_minute;
         }
+
+        return $converted_date;
+    }
+
+    public function nepali_today_date_shortcode( $attrs = array() )
+    {
+        $post_date = time();
+        $date = new Nepali_Date();
+        $nepali_calender = $date->eng_to_nep( date( 'Y', $post_date ), date( 'm', $post_date ), date( 'd', $post_date ) );
+        $nepali_year = $date->convert_to_nepali_number( $nepali_calender['year'] );
+        $nepali_month = $nepali_calender['nmonth'];
+        $nepali_day = $nepali_calender['day'];
+        $nepali_date = $date->convert_to_nepali_number( $nepali_calender['date'] );
+        $nepali_hour = $date->convert_to_nepali_number( date( 'H', $post_date ));
+        $nepali_minute = $date->convert_to_nepali_number( date( 'i', $post_date ) );
+
+        if ( $this->opts['today_date_format'] ) {
+            $format = $this->opts['today_date_format'];
+        } else {
+            $format = $this->opts['date_format'];
+        }
+
+        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nepali_day, $nepali_date, $nepali_month, $nepali_year ), $format );
 
         return $converted_date;
     }

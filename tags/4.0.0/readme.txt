@@ -2,13 +2,20 @@
 Contributors: shankhadev123
 Tags: Nepali Post Date, Nepal, Nepali, Nepali Date, Nepali Date Convert
 Requires at least: 3.6
-Tested up to: 4.7.4
+Tested up to: 5.4
 Stable tag: 4.0.0
 License: GPLv2 or later
 
 == Description ==
 
 Display wordpress post date format in nepali date.
+
+== Features ==
+
+* Convert post date in nepali AD date.
+* Time ago option only available in [Pro Version](https://padamshankhadev.com)
+* Convert the date using get_nepali_post_date('your-date') or using shortcode [nepali_post_date post_date='your-date'].
+* Get today date using get_nepali_today_date() or using shortcode [nepali_today_date].
 
 == Screenshots ==
 
