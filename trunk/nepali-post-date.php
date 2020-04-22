@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Nepali Post Date
-Plugin URI: https://www.padamshankhadev.com
+Plugin URI: https://wordpress.org/plugins/nepali-post-date/
 Description: A Nepali Post Date Plugin
-Version: 4.0.0
+Version: 5.0.0
 Author: Padam Shankhadev
 Author URI: https://www.padamshankhadev.com
 */
