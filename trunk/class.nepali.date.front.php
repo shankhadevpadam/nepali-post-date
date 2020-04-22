@@ -102,7 +102,7 @@ class Nepali_Post_Date_Frontend
 
         $converted_date = '';
 
-        $nep_datetime = $this->get_nepali_date( strtotime( $post->post_date ) );
+        $nepali_calender = $this->date->eng_to_nep( date( 'Y', $post->post_date ), date( 'm', $post->post_date ), date( 'd', $post->post_date ) );
 
         //If option not set as active return original string.
         if (!$this->opts['active']) {
@@ -115,10 +115,10 @@ class Nepali_Post_Date_Frontend
             $format = $this->opts['date_format'];
         }
 
-        $converted_date = str_replace(array('l', 'd', 'm', 'y'), array($nep_datetime['nepali_day'], $nep_datetime['nepali_date'], $nep_datetime['nepali_month'], $nep_datetime['nepali_year']), $format);
+        $converted_date = $this->get_converted_date( $nepali_calender, $format );
 
         if ($this->opts['active']['time']) {
-            $converted_date .= ' ' . $nep_datetime['nepali_hour'] . ':' . $nep_datetime['nepali_minute'];
+            $converted_date .= ' ' . $this->date->convert_to_nepali_number( date( 'H', $post->post_date ) ) . ':' . $this->date->convert_to_nepali_number( date( 'i', $post->post_date ) );
         }
 
         return $converted_date;
@@ -131,7 +131,7 @@ class Nepali_Post_Date_Frontend
             'post_date' => time(),
         ), $attrs) );
 
-        $nep_datetime = $this->get_nepali_date( strtotime( $post_date ) );
+        $nepali_calender = $this->date->eng_to_nep( date( 'Y', strtotime( $post_date ) ), date( 'm', strtotime( $post_date ) ), date( 'd', strtotime( $post_date ) ) );
 
         if ( $this->opts['custom_date_format'] ) {
             $format = $this->opts['custom_date_format'];
@@ -139,10 +139,10 @@ class Nepali_Post_Date_Frontend
             $format = $this->opts['date_format'];
         }
 
-        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nep_datetime['nepali_day'], $nep_datetime['nepali_date'], $nep_datetime['nepali_month'], $nep_datetime['nepali_year'] ), $format );
+        $converted_date = $this->get_converted_date( $nepali_calender, $format );
 
         if ( $this->opts['active']['time'] ) {
-            $converted_date .= ' ' . $nep_datetime['nepali_hour'] . ':' . $nep_datetime['nepali_minute'];
+            $converted_date .= ' ' . $this->date->convert_to_nepali_number( date( 'H', $post->post_date ) ) . ':' . $this->date->convert_to_nepali_number( date( 'i', $post->post_date ) );
         }
 
         return $converted_date;
@@ -150,7 +150,7 @@ class Nepali_Post_Date_Frontend
 
     public function nepali_today_date_shortcode( $attrs = array() )
     {
-        $nep_datetime = $this->get_nepali_date( time() ); 
+        $nepali_calender = $this->date->eng_to_nep( date( 'Y', time() ), date( 'm', time() ), date( 'd', time() ) ); 
 
         if ( $this->opts['today_date_format'] ) {
             $format = $this->opts['today_date_format'];
@@ -158,27 +158,20 @@ class Nepali_Post_Date_Frontend
             $format = $this->opts['date_format'];
         }
 
-        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nep_datetime['nepali_day'], $nep_datetime['nepali_date'], $nep_datetime['nepali_month'], $nep_datetime['nepali_year'] ), $format );
+        return $this->get_converted_date( $nepali_calender, $format );
+    }
+
+    public function get_converted_date( $nepali_calender, $format )
+    {
+
+        $converted_date = str_replace( ['l', 'd', 'm', 'y' ], [
+            $nepali_calender['day'],
+            $this->date->convert_to_nepali_number( $nepali_calender['date'] ),
+            $nepali_calender['nmonth'],
+            $this->date->convert_to_nepali_number( $nepali_calender['year'] )
+        ], $format );
 
         return $converted_date;
     }
 
-    public function get_nepali_date( $date )
-    {
-        $nepali_calender = $this->date->eng_to_nep( date( 'Y', $date ), date( 'm', $date ), date( 'd', $date ) );
-
-        $nep_date_time = [
-            'nepali_year' => $this->date->convert_to_nepali_number( $nepali_calender['year'] ),
-            'nepali_month' => $nepali_calender['nmonth'],
-            'nepali_day' => $nepali_calender['day'],
-            'nepali_date' => $this->date->convert_to_nepali_number( $nepali_calender['date'] ),
-            'nepali_hour' => $this->date->convert_to_nepali_number( date( 'H', $date )),
-            'nepali_minute' => $this->date->convert_to_nepali_number( date( 'i', $date ) ) 
-        ];
-
-        return $nep_date_time;
-    }
-
 }
-
-?>
