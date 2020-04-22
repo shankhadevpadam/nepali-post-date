@@ -71,8 +71,6 @@ endif;
 if( ! function_exists( 'get_nepali_post_date' )) {
 
 	function get_nepali_post_date( $post_date ) {
-
-		require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
 		$default_opts = array(
             'active' => array( 'date' => true, 'time' => true ),
             'date_format' => 'd m y, l',
@@ -106,8 +104,6 @@ if( ! function_exists( 'get_nepali_post_date' )) {
 if( ! function_exists( 'get_nepali_today_date' )) {
 
     function get_nepali_today_date() {
-
-        require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
         $default_opts = array(
             'date_format' => 'd m y, l',
             'today_date_format' => ''
