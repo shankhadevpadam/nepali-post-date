@@ -10,68 +10,68 @@ Author URI: https://www.padamshankhadev.com
 
 /* Prevent Direct access */
 if ( !defined( 'DB_NAME' ) ) {
-	header( 'HTTP/1.0 403 Forbidden' );
-	die;
+    header( 'HTTP/1.0 403 Forbidden' );
+    die;
 }
 
 /* Define BaseName */
 if ( !defined( 'NEPALIPOSTDATE_BASENAME' ) )
-	define( 'NEPALIPOSTDATE_BASENAME', plugin_basename( __FILE__ ) );
+    define( 'NEPALIPOSTDATE_BASENAME', plugin_basename( __FILE__ ) );
 
 /* Define plugin url */
 if( !defined('NEPALIPOSTDATE_PLUGIN_URL' ))
-	define('NEPALIPOSTDATE_PLUGIN_URL', plugin_dir_url(__FILE__));
+    define('NEPALIPOSTDATE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 /* Define plugin path */
 if( !defined('NEPALIPOSTDATE_PLUGIN_DIR' ))
-	define('NEPALIPOSTDATE_PLUGIN_DIR', plugin_dir_path(__FILE__));
+    define('NEPALIPOSTDATE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 /* Plugin version */
 define('NEPALIPOSTDATE', '1.0.0');
 
 /* Load Up the text domain */
 function npdate_textdomain() {
-	load_plugin_textdomain( 'npdate', false, basename( dirname( __FILE__ ) ) . '/languages' );
+    load_plugin_textdomain( 'npdate', false, basename( dirname( __FILE__ ) ) . '/languages' );
 }
 
 add_action( 'plugins_loaded', 'npdate_textdomain' );
 
 /* Check if we're running compatible software */
 if ( version_compare( PHP_VERSION, '5.2', '<' ) && version_compare( WP_VERSION, '3.7', '<' ) ) {
-	if ( is_admin() ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-		deactivate_plugins( __FILE__ );
-		wp_die( __( 'Nepali post date plugin requires WordPress 3.8 and PHP 5.3 or greater. The plugin has now disabled itself' ) );
-	}
+    if ( is_admin() ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        deactivate_plugins( __FILE__ );
+        wp_die( __( 'Nepali post date plugin requires WordPress 3.8 and PHP 5.3 or greater. The plugin has now disabled itself' ) );
+    }
 }
 
 
 /* Let's load up our plugin */
 function npd_frontend_init() {
-	require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
-	require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.front.php' );
+    require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.php' );
+    require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.front.php' );
     new Nepali_Post_Date_Frontend();
 }
 
 function npd_admin_init() {
-	require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.admin.php' );
-	new Nepali_Post_Date_Admin();
+    require_once( NEPALIPOSTDATE_PLUGIN_DIR . 'class.nepali.date.admin.php' );
+    new Nepali_Post_Date_Admin();
 }
 
 if( is_admin() ) :
 
-	add_action( 'plugins_loaded', 'npd_admin_init', 15 );
+    add_action( 'plugins_loaded', 'npd_admin_init', 15 );
 
 else :
 
-	add_action( 'plugins_loaded', 'npd_frontend_init', 50 );
+    add_action( 'plugins_loaded', 'npd_frontend_init', 50 );
 
 endif;
 
 if( ! function_exists( 'get_nepali_post_date' )) {
 
-	function get_nepali_post_date( $post_date ) {
-		$default_opts = array(
+    function get_nepali_post_date( $post_date ) {
+        $default_opts = array(
             'active' => array( 'date' => true, 'time' => true ),
             'date_format' => 'd m y, l',
             'custom_date_format' => ''
@@ -82,8 +82,6 @@ if( ! function_exists( 'get_nepali_post_date' )) {
         $opts = get_option( 'npd_opts', $default_opts );
 
         $post_date = ( !empty( $post_date ) ) ? strtotime( $post_date ) : time();
-        
-        $nep_date_time = get_nepali_date( $post_date );
 
         if ( $opts['custom_date_format'] ) {
             $format = $opts['custom_date_format'];
@@ -91,14 +89,14 @@ if( ! function_exists( 'get_nepali_post_date' )) {
             $format = $opts['date_format'];
         }
 
-        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nep_date_time['nepali_day'], $nep_date_time['nepali_date'], $nep_date_time['nepali_month'], $nep_date_time['nepali_year'] ), $format );
-
         if ( $opts['active']['time'] ) {
-            $converted_date .= ' ' . $nep_date_time['nepali_hour'] . ':' . $nep_date_time['nepali_minute'];
+            $converted_date = converted_nepali_date( $post_date, $format, true);
+        } else {
+            $converted_date = converted_nepali_date( $post_date, $format, true);
         }
 
         return $converted_date;
-	}
+    }
 }
 
 if( ! function_exists( 'get_nepali_today_date' )) {
@@ -112,37 +110,35 @@ if( ! function_exists( 'get_nepali_today_date' )) {
         $default_opts = apply_filters( 'npd_modify_default_opts', $default_opts );
         $opts = get_option( 'npd_opts', $default_opts );
 
-        $nep_date_time = get_nepali_date( time() );
-
         if ( $opts['today_date_format'] ) {
             $format = $opts['today_date_format'];
         } else {
             $format = $opts['date_format'];
         }
 
-        $converted_date = str_replace( array( 'l', 'd', 'm', 'y' ), array( $nep_date_time['nepali_day'], $nep_date_time['nepali_date'], $nep_date_time['nepali_month'], $nep_date_time['nepali_year'] ), $format );
-
-        return $converted_date;
+        return converted_nepali_date( time(), $format );
     }
 }
 
-if( !function_exists( 'get_nepali_date' ) ) {
+if( !function_exists( 'converted_nepali_date' ) ) {
     
-    function get_nepali_date( $date ) {
+    function converted_nepali_date( $date, $format, $time = false ) {
         $d = new Nepali_Date();
 
         $nepali_calender = $d->eng_to_nep( date( 'Y', $date ), date( 'm', $date ), date( 'd', $date ) );
 
-        $nep_date_time = [
-            'nepali_year' => $d->convert_to_nepali_number( $nepali_calender['year'] ),
-            'nepali_month' => $nepali_calender['nmonth'],
-            'nepali_day' => $nepali_calender['day'],
-            'nepali_date' => $d->convert_to_nepali_number( $nepali_calender['date'] ),
-            'nepali_hour' => $d->convert_to_nepali_number( date( 'H', $date )),
-            'nepali_minute' => $d->convert_to_nepali_number( date( 'i', $date ) ) 
-        ];
+        $converted_date = str_replace( ['l', 'd', 'm', 'y'], [
+            $nepali_calender['day'], 
+            $d->convert_to_nepali_number( $nepali_calender['date'] ), 
+            $nepali_calender['nmonth'], 
+            $d->convert_to_nepali_number( $nepali_calender['year'] )
+        ], $format );
 
-        return $nep_date_time;
+        if ( $time ) {
+            $converted_date .= ' ' . $d->convert_to_nepali_number( date( 'H', $date ) ) . ':' . $d->convert_to_nepali_number( date( 'i', $date ) );
+        }
+
+        return $converted_date;
     }
 }
 
