@@ -114,9 +114,9 @@ class Nepali_Post_Date_Frontend
         }
 
         if ( $this->opts['active']['time'] ) {
-            $converted_date = $this->get_converted_date( strtotime( $post->post_date ), $format, true );
+            $converted_date = $this->get_converted_nepali_date( strtotime( $post->post_date ), $format, true );
         } else {
-            $converted_date = $this->get_converted_date( strtotime( $post->post_date ), $format );
+            $converted_date = $this->get_converted_nepali_date( strtotime( $post->post_date ), $format );
         }
 
         return $converted_date;
@@ -136,9 +136,9 @@ class Nepali_Post_Date_Frontend
         }
 
         if ( $this->opts['active']['time'] ) {
-            $converted_date = $this->get_converted_date( strtotime( $post_date ), $format, true );
+            $converted_date = $this->get_converted_nepali_date( strtotime( $post_date ), $format, true );
         } else {
-            $converted_date = $this->get_converted_date( strtotime( $post_date ), $format );
+            $converted_date = $this->get_converted_nepali_date( strtotime( $post_date ), $format );
         }
 
         return $converted_date;
@@ -152,10 +152,10 @@ class Nepali_Post_Date_Frontend
             $format = $this->opts['date_format'];
         }
 
-        return $this->get_converted_date( time(), $format );
+        return $this->get_converted_nepali_date( time(), $format );
     }
 
-    public function get_converted_date( $date, $format, $time = false )
+    public function get_converted_nepali_date( $date, $format, $time = false )
     {
         $nepali_calender = $this->date->eng_to_nep( date( 'Y', $date ), date( 'm', $date ), date( 'd', $date ) );
 

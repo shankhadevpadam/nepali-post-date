@@ -71,6 +71,8 @@ endif;
 if( ! function_exists( 'get_nepali_post_date' )) {
 
     function get_nepali_post_date( $post_date ) {
+        $f_date = new Nepali_Post_Date_Frontend();
+
         $default_opts = array(
             'active' => array( 'date' => true, 'time' => true ),
             'date_format' => 'd m y, l',
@@ -90,9 +92,9 @@ if( ! function_exists( 'get_nepali_post_date' )) {
         }
 
         if ( $opts['active']['time'] ) {
-            $converted_date = converted_nepali_date( $post_date, $format, true);
+            $converted_date = $f_date->get_converted_nepali_date( $post_date, $format, true );
         } else {
-            $converted_date = converted_nepali_date( $post_date, $format, true);
+            $converted_date = $f_date->get_converted_nepali_date( $post_date, $format );
         }
 
         return $converted_date;
@@ -102,12 +104,15 @@ if( ! function_exists( 'get_nepali_post_date' )) {
 if( ! function_exists( 'get_nepali_today_date' )) {
 
     function get_nepali_today_date() {
+        $f_date = new Nepali_Post_Date_Frontend();
+
         $default_opts = array(
             'date_format' => 'd m y, l',
             'today_date_format' => ''
         );
 
         $default_opts = apply_filters( 'npd_modify_default_opts', $default_opts );
+
         $opts = get_option( 'npd_opts', $default_opts );
 
         if ( $opts['today_date_format'] ) {
@@ -116,29 +121,8 @@ if( ! function_exists( 'get_nepali_today_date' )) {
             $format = $opts['date_format'];
         }
 
-        return converted_nepali_date( time(), $format );
+        return $f_date->get_converted_nepali_date( time(), $format );
     }
 }
 
-if( !function_exists( 'converted_nepali_date' ) ) {
-    
-    function converted_nepali_date( $date, $format, $time = false ) {
-        $d = new Nepali_Date();
-
-        $nepali_calender = $d->eng_to_nep( date( 'Y', $date ), date( 'm', $date ), date( 'd', $date ) );
-
-        $converted_date = str_replace( ['l', 'd', 'm', 'y'], [
-            $nepali_calender['day'], 
-            $d->convert_to_nepali_number( $nepali_calender['date'] ), 
-            $nepali_calender['nmonth'], 
-            $d->convert_to_nepali_number( $nepali_calender['year'] )
-        ], $format );
-
-        if ( $time ) {
-            $converted_date .= ' ' . $d->convert_to_nepali_number( date( 'H', $date ) ) . ':' . $d->convert_to_nepali_number( date( 'i', $date ) );
-        }
-
-        return $converted_date;
-    }
-}
 
