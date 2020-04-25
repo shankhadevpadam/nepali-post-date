@@ -8,15 +8,28 @@ License: GPLv2 or later
 
 == Description ==
 
-Display WordPress post date format in nepali date.
+Nepali Post date is a wordpress plugin that converts the English date format to nepal date format. Not only does it convert the date format but also the hours too.
+
+Who is it useful for ?
+
+The plugin is useful for any website that needs to display the date and time in Nepali Calendar format. With the shortcodes built one can use the feature to display:
+
+a) Date in Nepali format
+b) Post date and hours in Nepali format
+c) Post modified Date and Hours in Nepali format
+
+The Nepali Post Date, WordPress Plugin is popular among the Nepali news portals built on WordPress becasue as per the regulation each news should have:
+
+i) News Post Date and Time
+ii) News Modified date and Time
 
 == Features ==
 
-* Convert post date in nepali AD date.
+* Convert post date into nepali BS date.
 * Time ago option only available in [Pro Version](https://padamshankhadev.com)
-* Convert the date using get_nepali_post_date('your-date') or using shortcode [nepali_post_date post_date='your-date'].
-* Get today date using get_nepali_today_date() or using shortcode [nepali_today_date].
-* Convert any number into nepali number using convert_nepali_number('your-number') or using shortcode [nepali_number number="your-number"]. 
+* Convert the date using function get_nepali_post_date('your-date') or using shortcode [nepali_post_date post_date='your-date'].
+* Get today date using function get_nepali_today_date() or using shortcode [nepali_today_date].
+* Convert any number into nepali number using convert_nepali_number('your-number') or using shortcode [nepali_number number='your-number']. 
 
 == Screenshots ==
 
@@ -32,7 +45,7 @@ Upload the Nepali Post Date plugin to your blog, Activate it.
 == Changelog ==
 
 = 5.1.0 =
-* Added shortcode [nepali_number number="your-number"]
+* Added shortcode [nepali_number number='your-number']
 * Added plugin function convert_nepali_number('your-number')
 
 = 5.0.0 =
@@ -43,8 +56,8 @@ Upload the Nepali Post Date plugin to your blog, Activate it.
 * Fixes the bugs.
 
 = 3.0.0 =
-* Added shortcode [nepali_post_date post_date="your-date"].
-* Added plugin function where you want to convert date manually like get_nepali_post_date(your-date).
+* Added shortcode [nepali_post_date post_date='your-date'].
+* Added plugin function where you want to convert date manually like get_nepali_post_date('your-date').
 
 = 2.0.0 =
 * Support nepali translation.
