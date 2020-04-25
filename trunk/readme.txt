@@ -29,7 +29,7 @@ ii) News Modified date and Time
 * Time ago option only available in [Pro Version](https://padamshankhadev.com)
 * Convert the date using function get_nepali_post_date('your-date') or using shortcode [nepali_post_date post_date='your-date'].
 * Get today date using function get_nepali_today_date() or using shortcode [nepali_today_date].
-* Convert any number into nepali number using convert_nepali_number('your-number') or using shortcode [nepali_number number='your-number']. 
+* Convert any number into nepali number using function convert_nepali_number('your-number') or using shortcode [nepali_number number='your-number']. 
 
 == Screenshots ==
 
