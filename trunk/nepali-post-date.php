@@ -2,7 +2,7 @@
 /*
 Plugin Name: Nepali Post Date
 Plugin URI: https://wordpress.org/plugins/nepali-post-date/
-Description: A Nepali Post Date Plugin
+Description: Nepali Post date is a wordpress plugin that converts the English date format to nepal date format. Not only does it convert the date format but also the hours too.
 Version: 5.1.0
 Author: Padam Shankhadev
 Author URI: https://www.padamshankhadev.com
@@ -27,7 +27,7 @@ if( !defined('NEPALIPOSTDATE_PLUGIN_DIR' ))
     define('NEPALIPOSTDATE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 
 /* Plugin version */
-define('NEPALIPOSTDATE', '1.0.0');
+define('NEPALIPOSTDATE', '5.1.0');
 
 /* Load Up the text domain */
 function npdate_textdomain() {
