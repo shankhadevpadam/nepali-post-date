@@ -2,7 +2,7 @@
 Contributors: shankhadev123
 Tags: Nepali Post Date, Nepal, Nepali, Nepali Date, Nepali Date Convert
 Requires at least: 3.6
-Tested up to: 5.4
+Tested up to: 5.5
 Stable tag: 5.1.1
 License: GPLv2 or later
 
